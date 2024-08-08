@@ -2,32 +2,33 @@ import unittest
 from unittest.mock import patch, MagicMock
 from scheduler.scheduler import Scheduler
 
+# Constants for AWS credentials
+TEST_AWS_ACCESS_KEY_ID = 'AKIA4P7QLXM6WCU3ZNDS'
+TEST_AWS_SECRET_ACCESS_KEY = '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'
 
 class TestScheduler(unittest.TestCase):
 
-    @patch('scheduler.scheduler.requests.get')
-    @patch('scheduler.scheduler.boto3.client')
-    def test_fetch_and_send_weather(self, mock_boto_client, mock_requests_get):
-        mock_response = MagicMock()
-        mock_response.status_code = 200
-        mock_response.json.return_value = {
-            "location": {"name": "Test City", "country": "Test Country", "localtime": "2024-08-08 10:00"},
-            "current": {"temp_c": 25, "condition": {"text": "Sunny"}}
+    @patch('scheduler.scheduler.SQSHandler')
+    @patch('scheduler.scheduler.fetch_weather')
+    def test_background_task(self, mock_fetch_weather, mock_sqs_handler):
+        mock_fetch_weather.return_value = {
+            'location': {'localtime': '2023-08-08 12:00', 'name': 'Test City', 'country': 'Test Country'},
+            'current': {'temp_c': 25, 'condition': {'text': 'Sunny'}}
         }
-        mock_requests_get.return_value = mock_response
-
-        mock_sqs_client = MagicMock()
-        mock_boto_client.return_value = mock_sqs_client
-
-        scheduler = Scheduler('list_of_cities.txt', 'your_access_key_id', 'your_secret_access_key')
+        mock_sqs_handler_instance = mock_sqs_handler.return_value
+        scheduler = Scheduler('scheduler/list_of_cities.txt', TEST_AWS_ACCESS_KEY_ID, TEST_AWS_SECRET_ACCESS_KEY)
         scheduler.cities = ['Test City']
+        scheduler._stop_event.set()  # To stop the loop after one iteration
 
         scheduler.background_task()
 
-        mock_requests_get.assert_called_once_with(
-            'http://api.weatherapi.com/v1/current.json?key=265960e484484c69be190222242307&q=Test City')
-        mock_sqs_client.send_message.assert_called_once()
+        mock_fetch_weather.assert_called_once_with('Test City')
+        mock_sqs_handler_instance.send_to_sqs.assert_called_once_with(mock_fetch_weather.return_value)
 
+    @patch('scheduler.scheduler.SQSHandler')
+    def test_read_cities(self, mock_sqs_handler):
+        scheduler = Scheduler('scheduler/list_of_cities.txt', TEST_AWS_ACCESS_KEY_ID, TEST_AWS_SECRET_ACCESS_KEY)
+        self.assertIn('Test City', scheduler.cities)
 
 if __name__ == '__main__':
     unittest.main()

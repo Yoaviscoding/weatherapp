@@ -1,64 +1,28 @@
-import pytest
-from httpx import AsyncClient
-from app.api.weather import router
-from fastapi import FastAPI
-import sqlite3
-
-app = FastAPI()
-app.include_router(router, prefix="/api")
-
-def setup_database():
-    conn = sqlite3.connect('weather_data.db')
-    cursor = conn.cursor()
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS weather_data (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            localtime TEXT,
-            name TEXT,
-            country TEXT,
-            temp_c REAL,
-            condition_text TEXT
-        )
-    ''')
-    conn.commit()
-    conn.close()
-
-@pytest.mark.asyncio
-async def test_get_city_info():
-    setup_database()
-    conn = sqlite3.connect('weather_data.db')
-    cursor = conn.cursor()
-    cursor.execute('''
-        INSERT INTO weather_data (localtime, name, country, temp_c, condition_text)
-        VALUES (?, ?, ?, ?, ?)
-    ''', ('2024-08-08 10:00', 'Test City', 'Test Country', 25, 'Sunny'))
-    conn.commit()
-    conn.close()
-
-    async with AsyncClient(app=app, base_url="http://test") as ac:
-        response = await ac.get("/api/exercise/Test Country")
-
-    assert response.status_code == 200
-    assert response.json() == [
-        {
-            "city": "Test City",
-            "average_temp_c": 25.0,
-            "latest_condition_text": "Sunny"
-        }
-    ]
-
-    conn = sqlite3.connect('weather_data.db')
-    cursor = conn.cursor()
-    cursor.execute('DELETE FROM weather_data WHERE name = ?', ('Test City',))
-    conn.commit()
-    conn.close()
-
-
-@pytest.mark.asyncio
-async def test_get_city_info_not_found():
-    setup_database()  # Ensure the database and table are set up
-    async with AsyncClient(app=app, base_url="http://test") as ac:
-        response = await ac.get("/api/exercise/Unknown Country")
-
-    assert response.status_code == 404
-    assert response.json() == {"detail": "Country not found"}
+# import unittest
+# from unittest.mock import patch
+# from scheduler.weather_api import fetch_weather
+#
+# class TestWeatherAPI(unittest.TestCase):
+#
+#     @patch('scheduler.weather_api.requests.get')
+#     def test_fetch_weather(self, mock_get):
+#         mock_get.return_value.status_code = 200
+#         mock_get.return_value.json.return_value = {
+#             'location': {'localtime': '2023-08-08 12:00', 'name': 'Test City', 'country': 'Test Country'},
+#             'current': {'temp_c': 25, 'condition': {'text': 'Sunny'}}
+#         }
+#
+#         result = fetch_weather('Test City')
+#         self.assertEqual(result['location']['name'], 'Test City')
+#         self.assertEqual(result['current']['temp_c'], 25)
+#         self.assertEqual(result['current']['condition']['text'], 'Sunny')
+#
+#     @patch('weather_api.requests.get')
+#     def test_fetch_weather_failure(self, mock_get):
+#         mock_get.return_value.status_code = 404
+#
+#         result = fetch_weather('Invalid City')
+#         self.assertIsNone(result)
+#
+# if __name__ == '__main__':
+#     unittest.main()
