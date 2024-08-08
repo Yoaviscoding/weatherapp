@@ -5,13 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="51f3ea32-85d2-4416-aa68-41fd2b4a7701" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/weather_data.db" beforeDir="false" afterPath="$PROJECT_DIR$/app/weather_data.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_sqs_handler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scheduler/scheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/scheduler/scheduler.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/test_scheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_scheduler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_weather_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_weather_api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/weather_data.db" beforeDir="false" afterPath="$PROJECT_DIR$/tests/weather_data.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_sqs_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_sqs_handler.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,12 +48,16 @@
     "Python.scheduler_console_process.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/yoavcohen/Desktop/CyberArk/weatherTask",
+    "last_opened_file_path": "/Users/yoavcohen/Desktop/CyberArk/weatherTask/tests",
     "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/tests" />
+      <recent name="$PROJECT_DIR$/scheduler" />
+      <recent name="$PROJECT_DIR$/processor" />
+      <recent name="$PROJECT_DIR$/app" />
       <recent name="$PROJECT_DIR$/app/scheduler" />
     </key>
     <key name="MoveFile.RECENT_KEYS">

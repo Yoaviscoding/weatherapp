@@ -1,8 +1,8 @@
 import cmd
 import threading
 import time
-from weather_api import fetch_weather
-from sqs_handler import SQSHandler
+from scheduler.weather_api import fetch_weather
+from scheduler.sqs_handler import SQSHandler
 
 class Scheduler(cmd.Cmd):
     prompt = '(scheduler) '
@@ -19,7 +19,6 @@ class Scheduler(cmd.Cmd):
     def read_cities(self, cities_file):
         with open(cities_file, 'r') as file:
             data = [line.strip() for line in file.readlines()]
-            print(data)
             return data
 
     def fetch_weather(self, city):
