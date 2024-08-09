@@ -9,7 +9,6 @@
       <change beforePath="$PROJECT_DIR$/app/weather_data.db" beforeDir="false" afterPath="$PROJECT_DIR$/app/weather_data.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scheduler/scheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/scheduler/scheduler.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/test_scheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_scheduler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_sqs_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_sqs_handler.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

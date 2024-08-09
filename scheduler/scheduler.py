@@ -1,8 +1,8 @@
 import cmd
 import threading
 import time
-from scheduler.weather_api import fetch_weather
-from scheduler.sqs_handler import SQSHandler
+from  weather_api import fetch_weather
+from sqs_handler import SQSHandler
 
 class Scheduler(cmd.Cmd):
     prompt = '(scheduler) '
